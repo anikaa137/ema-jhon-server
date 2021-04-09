@@ -61,8 +61,8 @@ client.connect(err => {
 
     app.post('/addOrder', (req, res) => {
         const order = req.body;
-        console.log(orders)
-         ordersCollection.insertMany(order)
+        console.log(order)
+         ordersCollection.insertOne(order)
             .then(result => {
                 // console.log(result.insertedCount);
                 res.send(result.insertedCount > 0)
