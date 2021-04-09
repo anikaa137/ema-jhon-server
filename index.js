@@ -19,6 +19,9 @@ const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
     const productsCollection = client.db("emaJhonStore").collection("products");
+    const ordersCollection = client.db("emaJhonStore").collection("orders");
+
+
     console.log(err)
 
     app.post('/addProduct', (req, res) => {
@@ -53,6 +56,16 @@ client.connect(err => {
         productsCollection.find({ key: { $in: prodctkeys } })
             .toArray((err, documents) => {
                 res.send(documents);
+        })
+    })
+
+    app.post('/addOrder', (req, res) => {
+        const order = req.body;
+        console.log(orders)
+         ordersCollection.insertMany(order)
+            .then(result => {
+                // console.log(result.insertedCount);
+                res.send(result.insertedCount > 0)
         })
     })
 });
